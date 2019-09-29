@@ -3,6 +3,7 @@ package com.example.graduatedesign;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.graduatedesign.adapter.MyPagerAdapter;
+import com.example.graduatedesign.myviews.CircleImageView;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int one = 0; //移动条滑动一页的距离
     private int two = 0; //滑动条移动两页的距离
 
+    private CircleImageView im1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_two = (TextView) findViewById(R.id.tv_two);
         tv_three = (TextView) findViewById(R.id.tv_three);
         img_cursor = (ImageView) findViewById(R.id.img_cursor);
+
+        im1 = (CircleImageView) findViewById(R.id.ac_ib1);
+        im1.setOnClickListener(this);
 
         //下划线动画的相关设置：
         bmpWidth = BitmapFactory.decodeResource(getResources(), R.drawable.line).getWidth();// 获取图片宽度
@@ -90,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_three:
                 vpager_four.setCurrentItem(2);
+                break;
+            case R.id.ac_ib1:
+                startActivity(new Intent(MainActivity.this,Yourself.class));
                 break;
         }
     }
