@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DBDBDB">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/yi_ib1"
+            android:layout_width="52dp"
+            android:layout_height="match_parent"
+            android:background="?attr/homeAsUpIndicator" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <com.example.graduatedesign.myviews.CircleImageView
+            android:id="@+id/yf_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="?android:attr/panelBackground"
+            android:src="@drawable/image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/yf_name"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/yf_inf"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="TextView" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/yi_bt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/yi_bt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/yi_bt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我的收藏" />
+
+    <Button
+        android:id="@+id/yi_bt4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="管理新闻" />
+
+    <Button
+        android:id="@+id/yi_bt5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发布新闻" />
+
+    <Button
+        android:id="@+id/yi_bt6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="夜间模式" />
+
+    <Button
+        android:id="@+id/yi_bt7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除缓存" />
+
+    <Button
+        android:id="@+id/yi_bt8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出登录" />
+
+
+    /LLinearLayout>
+
+</LinearLayout>
