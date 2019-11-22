@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/ac_tv1"
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -81,10 +81,12 @@
         android:scaleType="matrix"
         android:src="@drawable/line" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpager_four"
+    <FrameLayout
+        android:id="@+id/newscontent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#03A9F4" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
 
 </LinearLayout>

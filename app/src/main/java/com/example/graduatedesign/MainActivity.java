@@ -1,40 +1,28 @@
 package com.example.graduatedesign;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import com.example.graduatedesign.adapter.MyPagerAdapter;
 import com.example.graduatedesign.myviews.CircleImageView;
 
-import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        ViewPager.OnPageChangeListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private ViewPager vpager_four;
-    private ImageView img_cursor;
-    private TextView tv_one;
-    private TextView tv_two;
-    private TextView tv_three;
+    private TextView tv_in,tv_out,tv_s;
+    private EditText et_s;
 
-    private ArrayList<View> listViews;
-    private int offset = 0;//移动条图片的偏移量
-    private int currIndex = 0;//当前页面的编号
-    private int bmpWidth;// 移动条图片的长度
-    private int one = 0; //移动条滑动一页的距离
-    private int two = 0; //滑动条移动两页的距离
+    FrameLayout newscontent;
+    FirstFragment firstFragment;
+    SecondFragment secondFragment;
+    ThirdFragment thirdFragment;
+    FragmentManager manager;
 
     private CircleImageView im1;
 
@@ -43,106 +31,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        setTabSelection(0);
     }
 
 
     private void initViews() {
-        vpager_four = (ViewPager) findViewById(R.id.vpager_four);
-        tv_one = (TextView) findViewById(R.id.tv_one);
-        tv_two = (TextView) findViewById(R.id.tv_two);
-        tv_three = (TextView) findViewById(R.id.tv_three);
-        img_cursor = (ImageView) findViewById(R.id.img_cursor);
+        tv_in = findViewById(R.id.tv_one);
+        tv_out = findViewById(R.id.tv_two);
+        tv_s = findViewById(R.id.tv_three);
+        et_s = findViewById(R.id.ac_et1);
+        im1 = findViewById(R.id.ac_ib1);
 
-        im1 = (CircleImageView) findViewById(R.id.ac_ib1);
+        tv_in.setOnClickListener(this);
+        tv_out.setOnClickListener(this);
+        tv_s.setOnClickListener(this);
         im1.setOnClickListener(this);
 
-        //下划线动画的相关设置：
-        bmpWidth = BitmapFactory.decodeResource(getResources(), R.drawable.line).getWidth();// 获取图片宽度
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenW = dm.widthPixels;// 获取分辨率宽度
-        offset = (screenW / 3 - bmpWidth) / 2;// 计算偏移量
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(offset, 0);
-        img_cursor.setImageMatrix(matrix);// 设置动画初始位置
-        //移动的距离
-        one = offset * 2 + bmpWidth;// 移动一页的偏移量,比如1->2,或者2->3
-        two = one * 2;// 移动两页的偏移量,比如1直接跳3
 
 
-        //往ViewPager填充View，同时设置点击事件与页面切换事件
-        listViews = new ArrayList<View>();
-        LayoutInflater mInflater = getLayoutInflater();
-        listViews.add(mInflater.inflate(R.layout.view_one, null, false));
-        listViews.add(mInflater.inflate(R.layout.view_two, null, false));
-        listViews.add(mInflater.inflate(R.layout.view_three, null, false));
-        vpager_four.setAdapter(new MyPagerAdapter(listViews));
-        vpager_four.setCurrentItem(0);          //设置ViewPager当前页，从0开始算
+        manager = getFragmentManager();
+        newscontent = findViewById(R.id.newscontent);
 
-        tv_one.setOnClickListener(this);
-        tv_two.setOnClickListener(this);
-        tv_three.setOnClickListener(this);
+    }
 
-        vpager_four.addOnPageChangeListener(this);
+    private void setTabSelection(int page){
+        FragmentTransaction trans = manager.beginTransaction();
+        hideFragment(trans);
+        switch (page){
+            case 0:
+                if(firstFragment==null){
+                    firstFragment = new FirstFragment();
+                    trans.add(R.id.newscontent,firstFragment);
+                }else{
+                    trans.show(firstFragment);
+                }
+                break;
+            case 1:
+                if(secondFragment==null){
+                    secondFragment = new SecondFragment();
+                    trans.add(R.id.newscontent,secondFragment);
+                }else{
+                    trans.show(secondFragment);
+                }
+                break;
+            case 2:
+                if (thirdFragment == null) {
+                    thirdFragment = new ThirdFragment();
+                    trans.add(R.id.newscontent,thirdFragment);
+                }else{
+                    trans.show(thirdFragment);
+                }
+
+        }
+        trans.commit();
+
+    }
+
+    private void hideFragment(android.app.FragmentTransaction t) {
+        if(firstFragment != null) {
+            t.hide(firstFragment);
+        }
+        if(secondFragment != null) {
+            t.hide(secondFragment);
+        }
+        if(thirdFragment != null) {
+            t.hide(thirdFragment);
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_one:
-                vpager_four.setCurrentItem(0);
+                setTabSelection(0);
                 break;
             case R.id.tv_two:
-                vpager_four.setCurrentItem(1);
+                setTabSelection(1);
                 break;
             case R.id.tv_three:
-                vpager_four.setCurrentItem(2);
+                setTabSelection(2);
                 break;
             case R.id.ac_ib1:
                 startActivity(new Intent(MainActivity.this,Yourself.class));
                 break;
         }
-    }
-
-    @Override
-    public void onPageSelected(int index) {
-        Animation animation = null;
-        switch (index) {
-            case 0:
-                if (currIndex == 1) {
-                    animation = new TranslateAnimation(one, 0, 0, 0);
-                } else if (currIndex == 2) {
-                    animation = new TranslateAnimation(two, 0, 0, 0);
-                }
-                break;
-            case 1:
-                if (currIndex == 0) {
-                    animation = new TranslateAnimation(offset, one, 0, 0);
-                } else if (currIndex == 2) {
-                    animation = new TranslateAnimation(two, one, 0, 0);
-                }
-                break;
-            case 2:
-                if (currIndex == 0) {
-                    animation = new TranslateAnimation(offset, two, 0, 0);
-                } else if (currIndex == 1) {
-                    animation = new TranslateAnimation(one, two, 0, 0);
-                }
-                break;
-        }
-        currIndex = index;
-        animation.setFillAfter(true);// true表示图片停在动画结束位置
-        animation.setDuration(300); //设置动画时间为300毫秒
-        img_cursor.startAnimation(animation);//开始动画
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
-    }
-
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
     }
 }

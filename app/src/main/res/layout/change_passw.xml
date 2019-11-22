@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -10,23 +11,23 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/reg_ib1"
+            android:id="@+id/cp_ib1"
             android:layout_width="52dp"
             android:layout_height="match_parent"
             android:background="?attr/homeAsUpIndicator" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tx_reg"
+        android:id="@+id/cp_tv1"
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:background="#006A9B8F"
-        android:text="注册账号"
+        android:text="修改密码"
         android:textSize="36sp"
         app:autoSizeMaxTextSize="@android:dimen/notification_large_icon_height" />
 
     <EditText
-        android:id="@+id/re_et1"
+        android:id="@+id/cp_et1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -35,36 +36,27 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/re_et2"
+        android:id="@+id/cp_et2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入名字"
+        android:hint="请输入旧密码"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/re_et3"
+        android:id="@+id/cp_et3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入密码"
+        android:hint="请输入新密码"
         android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/re_et4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="请输入邮箱"
-        android:inputType="textPersonName" />
-
 
     <Button
-        android:id="@+id/re_bt2"
+        android:id="@+id/cp_bt2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册" />
+        android:text="确认更改" />
+
 </LinearLayout>
