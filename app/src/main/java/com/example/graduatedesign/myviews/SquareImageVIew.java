@@ -12,18 +12,13 @@ public class SquareImageVIew extends ImageView {
     }
 
     public SquareImageVIew(Context context, AttributeSet attrs) {
-
         this(context, attrs, 0);
-
     }
 
 
 
     public SquareImageVIew(Context context, AttributeSet attrs, int defStyle) {
-
         super(context, attrs, defStyle);
-
-
 
     }
 
