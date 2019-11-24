@@ -10,37 +10,42 @@
         android:background="#fd5649">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/wv_ib"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_menu_revert" />
     </TableRow>
 
     <WebView
+        android:id="@+id/wv_wv"
         android:layout_width="match_parent"
-        android:layout_height="637dp" >
-    </WebView>
+        android:layout_height="623dp"></WebView>
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="142dp"
+            android:id="@+id/wv_bt1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_weight="1"
+            android:text="收藏" />
 
         <Button
-            android:id="@+id/button4"
-            android:layout_width="135dp"
+            android:id="@+id/wv_bt2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_weight="1"
+            android:text="赞" />
 
         <Button
-            android:id="@+id/button5"
-            android:layout_width="138dp"
+            android:id="@+id/wv_bt3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
-    </TableRow>
+            android:layout_weight="1"
+            android:text="举报" />
+    </LinearLayout>
+
 </LinearLayout>

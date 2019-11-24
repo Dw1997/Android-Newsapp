@@ -1,12 +1,14 @@
 package com.example.graduatedesign;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,22 +28,37 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends Fragment{
     private String TAG = "FirstFragmrnt";
     private ListView lv_nfi;
     public List<News> listn = new ArrayList<News>();
     NewsAdapter newsAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View messageLayout = inflater.inflate(R.layout.view_one,container,false);
-        lv_nfi = messageLayout.findViewById(R.id.lv_one);
-        getnews(1);
-        newsAdapter = new NewsAdapter(getActivity(),R.layout.news_item,listn);
-//        newsAdapter.notifyDataSetChanged();
-        lv_nfi.setAdapter(newsAdapter);
         return messageLayout;
+    }
+
+    @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        super.onViewCreated(view,savedInstanceState);
+        getnews(1);
+        lv_nfi = view.findViewById(R.id.lv_one);
+        newsAdapter = new NewsAdapter(getActivity(),R.layout.news_item,listn);
+        lv_nfi.setAdapter(newsAdapter);
+        lv_nfi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                News per = listn.get(i);
+                Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                intent.putExtra("id",per.getId());
+                intent.putExtra("url",per.getUrl());
+                Log.d(TAG,per.toString());
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -83,12 +100,11 @@ public class FirstFragment extends Fragment {
                         Log.d(TAG,news.toString());
                         listn.add(news);
                     }
+//                    newsAdapter.notifyDataSetChanged();
                     Log.d(TAG," "+listn.size());
                 }
 
             }
         });
-
     }
-
 }

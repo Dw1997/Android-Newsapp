@@ -1,6 +1,8 @@
 package com.example.graduatedesign.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +11,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.graduatedesign.R;
 import com.example.graduatedesign.beans.News;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class NewsAdapter extends ArrayAdapter {
+
+
     private String TAG = "NewsAdapter";
     private int resouceId;
     List<News> listn;
@@ -66,6 +80,7 @@ public class NewsAdapter extends ArrayAdapter {
         Log.d(TAG,news.getTitle());
         holder.title.setText(news.getTitle());
         holder.date.setText(news.getDate());
+//        getimg(news.getImpa(),holder.img);
         return view;
     }
 
@@ -74,8 +89,24 @@ public class NewsAdapter extends ArrayAdapter {
         ImageView img;
     }
 
-    public void getimg(String url,final ImageView imv){
+    public void getimg(String url,ImageView imv){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(url).get().build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Looper.prepare();
+                Toast.makeText(getContext(),"图片加载失败",Toast.LENGTH_LONG).show();
+                Looper.loop();
+            }
 
-
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream in = response.body().byteStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                imv.setImageBitmap(bitmap);
+            }
+        });
     }
 }
