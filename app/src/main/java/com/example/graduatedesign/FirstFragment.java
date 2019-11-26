@@ -3,7 +3,9 @@ package com.example.graduatedesign;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,20 +35,41 @@ public class FirstFragment extends Fragment{
     private ListView lv_nfi;
     public List<News> listn = new ArrayList<News>();
     NewsAdapter newsAdapter;
+    private Handler handler = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View messageLayout = inflater.inflate(R.layout.view_one,container,false);
-        return messageLayout;
-    }
-
-    @Override
-    public void onViewCreated(View view,Bundle savedInstanceState){
-        super.onViewCreated(view,savedInstanceState);
-        getnews(1);
-        lv_nfi = view.findViewById(R.id.lv_one);
+        lv_nfi = messageLayout.findViewById(R.id.lv_one);
+        listn = getnews(1);
         newsAdapter = new NewsAdapter(getActivity(),R.layout.news_item,listn);
         lv_nfi.setAdapter(newsAdapter);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                    listn = getnews(1);
+                    handler.sendMessage(handler.obtainMessage(0,listn));
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        try{
+            new Thread(runnable).start();
+            handler = new Handler(){
+                public void handleMessage(Message msg){
+                    if(msg.what==0){
+                        newsAdapter.notifyDataSetChanged();
+                    }
+                }
+            };
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         lv_nfi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -59,6 +82,7 @@ public class FirstFragment extends Fragment{
             }
         });
 
+        return messageLayout;
     }
 
     @Override
@@ -66,7 +90,8 @@ public class FirstFragment extends Fragment{
         super.onCreate(savedInstanceState);
     }
 
-    private void getnews(int page){
+    private List<News> getnews(int page){
+        List<News> listbb = new ArrayList<News>();
         String url = "http://dwy.dwhhh.cn/api/news?num="+page;
         Log.d(TAG,url);
         OkHttpClient client = new OkHttpClient.Builder().build();
@@ -98,13 +123,11 @@ public class FirstFragment extends Fragment{
                         String state = newd.getString("state");
                         News news = new News(id,url,date,impa,title,state);
                         Log.d(TAG,news.toString());
-                        listn.add(news);
+                        listbb.add(news);
                     }
-//                    newsAdapter.notifyDataSetChanged();
-                    Log.d(TAG," "+listn.size());
                 }
-
             }
         });
+        return listbb;
     }
 }
