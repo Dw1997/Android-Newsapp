@@ -3,11 +3,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFBA55"
+    android:background="#f8f8f8"
     android:gravity="center">
 
     <ListView
         android:id="@+id/lv_two"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@android:color/holo_orange_light"
+        android:dividerHeight="2px" />
 </LinearLayout>

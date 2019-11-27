@@ -38,14 +38,19 @@
             <TextView
                 android:id="@+id/yf_name"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:text="TextView" />
+                android:layout_height="44dp"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/yf_inf"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="TextView" />
+                android:layout_height="32dp"
+                android:gravity="bottom|right"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 
