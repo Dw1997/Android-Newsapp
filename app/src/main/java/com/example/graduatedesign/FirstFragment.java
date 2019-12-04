@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.graduatedesign.adapter.NewsAdapter;
 import com.example.graduatedesign.beans.News;
+import com.example.graduatedesign.tools.SharePreTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,7 +93,12 @@ public class FirstFragment extends Fragment{
 
     private List<News> getnews(int page){
         List<News> listbb = new ArrayList<News>();
-        String url = "http://dwy.dwhhh.cn/api/news?num="+page;
+        String typee = SharePreTools.getType(getActivity());
+        String url = "";
+        if(typee.equals("0"))
+            url = "http://dwy.dwhhh.cn/api/coat?tp=0";
+        if(typee.equals("1"))
+            url = "http://dwy.dwhhh.cn/api/news?num="+page;
         Log.d(TAG,url);
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder().url(url).get().build();
@@ -118,10 +124,13 @@ public class FirstFragment extends Fragment{
                         String id = newd.getString("id");
                         String url = newd.getString("url");
                         String date = newd.getString("date");
+                        String year = newd.getString("year");
+                        String month = newd.getString("month");
+                        String day = newd.getString("day");
                         String impa = newd.getString("impa");
                         String title = newd.getString("title");
                         String state = newd.getString("state");
-                        News news = new News(id,url,date,impa,title,state);
+                        News news = new News(id,url,date,year,month,day,impa,title,state);
                         Log.d(TAG,news.toString());
                         listbb.add(news);
                     }

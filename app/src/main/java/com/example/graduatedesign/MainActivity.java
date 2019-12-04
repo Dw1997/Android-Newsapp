@@ -5,18 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import com.example.graduatedesign.myviews.CircleImageView;
 
+import com.example.graduatedesign.tools.SharePreTools;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private final static String TAG = "MainActivity";
     private TextView tv_in,tv_out,tv_s;
-    private EditText et_s;
+
 
     FrameLayout newscontent;
     FirstFragment firstFragment;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ThirdFragment thirdFragment;
     FragmentManager manager;
 
-    private CircleImageView im1;
+    private ImageButton im1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,15 +41,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_in = findViewById(R.id.tv_one);
         tv_out = findViewById(R.id.tv_two);
         tv_s = findViewById(R.id.tv_three);
-        et_s = findViewById(R.id.ac_et1);
         im1 = findViewById(R.id.ac_ib1);
+
+        String type = SharePreTools.getType(MainActivity.this);
+        if(type.equals("0"))
+        {
+            tv_in.setText("收藏");
+            tv_out.setText("赞");
+            tv_s.setText("举报");
+        }
 
         tv_in.setOnClickListener(this);
         tv_out.setOnClickListener(this);
         tv_s.setOnClickListener(this);
         im1.setOnClickListener(this);
-
-
 
         manager = getFragmentManager();
         newscontent = findViewById(R.id.newscontent);
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
         }
+        changecolor(page);
         trans.commit();
 
     }
@@ -116,4 +124,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    public void changecolor(int page){
+        if(page==0){
+            tv_in.setBackgroundColor(Color.parseColor("#AABB66"));
+            tv_out.setBackgroundColor(Color.parseColor("#FFFFDD"));
+            tv_s.setBackgroundColor(Color.parseColor("#FFFFDD"));
+        }
+        if(page==1){
+            tv_out.setBackgroundColor(Color.parseColor("#AABB66"));
+            tv_in.setBackgroundColor(Color.parseColor("#FFFFDD"));
+            tv_s.setBackgroundColor(Color.parseColor("#FFFFDD"));
+        }
+        if(page==2){
+            tv_s.setBackgroundColor(Color.parseColor("#AABB66"));
+            tv_out.setBackgroundColor(Color.parseColor("#FFFFDD"));
+            tv_in.setBackgroundColor(Color.parseColor("#FFFFDD"));
+        }
+    }
+
 }

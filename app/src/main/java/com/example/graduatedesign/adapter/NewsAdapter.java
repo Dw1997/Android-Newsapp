@@ -3,8 +3,10 @@ package com.example.graduatedesign.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Looper;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.graduatedesign.R;
 import com.example.graduatedesign.beans.News;
 
@@ -37,6 +41,7 @@ public class NewsAdapter extends ArrayAdapter {
     List<News> listn;
     News news;
     Context mContext;
+    private LruCache<String, BitmapDrawable> mImageCache;
 
     public NewsAdapter(Context context,int res,List<News> listnews){
         super(context,res);
@@ -81,6 +86,8 @@ public class NewsAdapter extends ArrayAdapter {
         holder.title.setText(news.getTitle());
         holder.date.setText(news.getDate());
 //        getimg(news.getImpa(),holder.img);
+        Glide.with(mContext).load(news.getImpa()).placeholder(R.drawable.image).diskCacheStrategy(DiskCacheStrategy.NONE).fitCenter().into(holder.img);
+
         return view;
     }
 
@@ -109,4 +116,7 @@ public class NewsAdapter extends ArrayAdapter {
             }
         });
     }
+
+
+
 }

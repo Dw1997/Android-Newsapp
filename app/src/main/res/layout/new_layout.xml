@@ -22,6 +22,7 @@
         android:layout_height="623dp"></WebView>
 
     <LinearLayout
+        android:id="@+id/wv_lr1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -46,6 +47,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="举报" />
+
+        <Button
+            android:id="@+id/wv_bt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="删除新闻" />
+
     </LinearLayout>
 
 </LinearLayout>

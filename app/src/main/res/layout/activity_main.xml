@@ -13,30 +13,21 @@
         android:background="#00666666"
         android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/ac_ib1"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@android:drawable/ic_menu_manage" />
+
         <TextView
             android:id="@+id/ac_tv1"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="News"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/ac_et1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <com.example.graduatedesign.myviews.CircleImageView
-            android:id="@+id/ac_ib1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/image" />
+            android:gravity="center"
+            android:text="上海建桥学院新闻APP"
+            android:textSize="30sp" />
 
 
     </LinearLayout>
@@ -61,7 +52,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="社会"
+            android:text="热榜"
             android:textColor="#000000" />
 
         <TextView
@@ -70,16 +61,9 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="热榜"
+            android:text="搜索"
             android:textColor="#000000" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/img_cursor"
-        android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:scaleType="matrix"
-        android:src="@drawable/line" />
 
     <FrameLayout
         android:id="@+id/newscontent"

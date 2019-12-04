@@ -1,7 +1,6 @@
 package com.example.graduatedesign;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduatedesign.myviews.CircleImageView;
 import com.example.graduatedesign.tools.SharePreTools;
+import com.example.graduatedesign.tools.User_collActivity;
 
 import java.util.Date;
 
@@ -53,6 +53,7 @@ public class Yourself extends AppCompatActivity implements View.OnClickListener{
 
         ib1 = findViewById(R.id.yi_ib1);
         ib1.setOnClickListener(this);
+        bt3.setOnClickListener(this);
 
         String name =SharePreTools.getname(Yourself.this);
         Date date = new Date();
@@ -69,6 +70,9 @@ public class Yourself extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.yi_bt8:
                 startActivity(new Intent(Yourself.this,LoginActivity.class));
+                break;
+            case R.id.yi_bt3:
+                startActivity(new Intent(Yourself.this, User_collActivity.class));
                 break;
 
         }

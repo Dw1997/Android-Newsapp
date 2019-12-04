@@ -29,6 +29,7 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".ChangePaActivity"/>
         <activity android:name=".WebViewActivity"/>
+        <activity android:name=".tools.User_collActivity"/>
     </application>
 
 </manifest>
