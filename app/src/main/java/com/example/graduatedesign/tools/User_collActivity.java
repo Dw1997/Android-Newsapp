@@ -98,6 +98,15 @@ public class User_collActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent);
             }
         });
+
+        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String uid = newsList.get(position).getId();
+                delco(uid);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -153,5 +162,48 @@ public class User_collActivity extends AppCompatActivity implements View.OnClick
             }
         });
         return listbb;
+    }
+
+    public void delco(String id){
+        String ph = SharePreTools.getPhone(User_collActivity.this);
+        String url = "http://dwy.dwhhh.cn/api/delcon?id="+id+"&ph="+ph;
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder().url(url).get().build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(User_collActivity.this,"网络连接失败",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String res = response.body().string();
+                Log.d("--------",res);
+                com.alibaba.fastjson.JSONObject json = JSONObject.parseObject(res);
+                if(json.getString("result").equals("true")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(User_collActivity.this,"删除成功",Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+//                    startActivity(new Intent(RegsiterActivity.this, MainActivity.class));
+                }
+                else
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(User_collActivity.this,"addlog-fail",Toast.LENGTH_LONG).show();
+                        }
+                    });
+            }
+        });
     }
 }
