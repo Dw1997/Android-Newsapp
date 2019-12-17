@@ -145,16 +145,14 @@ public class User_collActivity extends AppCompatActivity implements View.OnClick
                     for(int i=0;i<newl.size();i++){
                         String newst = newl.get(i).toString();
                         com.alibaba.fastjson.JSONObject newd = JSONObject.parseObject(newst);
-                        String id = newd.getString("id");
-                        String url = newd.getString("url");
-                        String date = newd.getString("date");
-                        String year = newd.getString("year");
-                        String month = newd.getString("month");
-                        String day = newd.getString("day");
-                        String impa = newd.getString("impa");
-                        String title = newd.getString("title");
-                        String state = newd.getString("state");
-                        News news = new News(id,url,date,year,month,day,impa,title,state);
+                        String id = newd.getString("newsid");
+                        String url = newd.getString("newsurl");
+                        String date = newd.getString("newsdate");
+                        String impa = newd.getString("newsimpa");
+                        String title = newd.getString("newstitle");
+                        String state = newd.getString("newsstate");
+                        String typee = newd.getString("newstype");
+                        News news = new News(id,url,date,impa,title,state,typee);
                         Log.d(TAG,news.toString());
                         listbb.add(news);
                     }

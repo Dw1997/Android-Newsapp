@@ -4,27 +4,23 @@ public class News {
     private String id;
     private String url;
     private String date;
-    private String year;
-    private String month;
-    private String day;
     private String impa;
     private String title;
     private String state;
+    private String type;
 
     public News(){
 
     }
 
-    public News(String id, String url, String date, String year, String month, String day, String impa, String title, String state) {
+    public News(String id, String url, String date, String impa, String title, String state, String type) {
         this.id = id;
         this.url = url;
         this.date = date;
-        this.year = year;
-        this.month = month;
-        this.day = day;
         this.impa = impa;
         this.title = title;
         this.state = state;
+        this.type = type;
     }
 
     public String getId() {
@@ -51,30 +47,6 @@ public class News {
         this.date = date;
     }
 
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
     public String getImpa() {
         return impa;
     }
@@ -99,18 +71,24 @@ public class News {
         this.state = state;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "News{" +
                 "id='" + id + '\'' +
                 ", url='" + url + '\'' +
                 ", date='" + date + '\'' +
-                ", year='" + year + '\'' +
-                ", month='" + month + '\'' +
-                ", day='" + day + '\'' +
                 ", impa='" + impa + '\'' +
                 ", title='" + title + '\'' +
                 ", state='" + state + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

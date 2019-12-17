@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;

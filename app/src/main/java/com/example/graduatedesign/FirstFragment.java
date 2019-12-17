@@ -1,7 +1,10 @@
 package com.example.graduatedesign;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
@@ -31,18 +35,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class FirstFragment extends Fragment{
+public class FirstFragment extends Fragment implements MainActivity.MyClick{
     private String TAG = "FirstFragmrnt";
     private ListView lv_nfi;
     public List<News> listn = new ArrayList<News>();
     NewsAdapter newsAdapter;
     private Handler handler = null;
+    private Handler handler2 = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View messageLayout = inflater.inflate(R.layout.view_one,container,false);
         lv_nfi = messageLayout.findViewById(R.id.lv_one);
-        listn = getnews(1);
+        listn = getnews(0,0);
         newsAdapter = new NewsAdapter(getActivity(),R.layout.news_item,listn);
         lv_nfi.setAdapter(newsAdapter);
         Runnable runnable = new Runnable() {
@@ -50,7 +55,7 @@ public class FirstFragment extends Fragment{
             public void run() {
                 try{
                     Thread.sleep(2000);
-                    listn = getnews(1);
+                    listn = getnews(1,0);
                     handler.sendMessage(handler.obtainMessage(0,listn));
 
                 } catch (InterruptedException e) {
@@ -89,16 +94,26 @@ public class FirstFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("type_change");
+        getActivity().registerReceiver(userChangReceiver, filter);
     }
 
-    private List<News> getnews(int page){
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(userChangReceiver);
+    }
+
+    private List<News> getnews(int page,int tp){
         List<News> listbb = new ArrayList<News>();
+        listbb.clear();
         String typee = SharePreTools.getType(getActivity());
         String url = "";
         if(typee.equals("0"))
             url = "http://dwy.dwhhh.cn/api/coat?tp=0";
         if(typee.equals("1"))
-            url = "http://dwy.dwhhh.cn/api/news?num="+page;
+            url = "http://dwy.dwhhh.cn/api/news?tp="+tp+"&page="+page;
         Log.d(TAG,url);
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder().url(url).get().build();
@@ -121,16 +136,14 @@ public class FirstFragment extends Fragment{
                     for(int i=0;i<newl.size();i++){
                         String newst = newl.get(i).toString();
                         com.alibaba.fastjson.JSONObject newd = JSONObject.parseObject(newst);
-                        String id = newd.getString("id");
-                        String url = newd.getString("url");
-                        String date = newd.getString("date");
-                        String year = newd.getString("year");
-                        String month = newd.getString("month");
-                        String day = newd.getString("day");
-                        String impa = newd.getString("impa");
-                        String title = newd.getString("title");
-                        String state = newd.getString("state");
-                        News news = new News(id,url,date,year,month,day,impa,title,state);
+                        String id = newd.getString("newsid");
+                        String url = newd.getString("newsurl");
+                        String date = newd.getString("newsdate");
+                        String impa = newd.getString("newsimpa");
+                        String title = newd.getString("newstitle");
+                        String state = newd.getString("newsstate");
+                        String typee = newd.getString("newstype");
+                        News news = new News(id,url,date,impa,title,state,typee);
                         Log.d(TAG,news.toString());
                         listbb.add(news);
                     }
@@ -139,4 +152,53 @@ public class FirstFragment extends Fragment{
         });
         return listbb;
     }
+
+    @Override
+    public void click_cn() {
+
+    }
+
+    BroadcastReceiver userChangReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals("type_change")) {
+               refrechnews();
+            }
+        }
+
+    };
+
+
+    public void refrechnews(){
+
+        Spinner sp2 = (Spinner) getActivity().findViewById(R.id.sp_t);
+        int pos = sp2.getSelectedItemPosition();
+        Runnable runnable2 = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                    listn = getnews(1,pos);
+                    handler.sendMessage(handler.obtainMessage(99,listn));
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        try{
+            new Thread(runnable2).start();
+            handler = new Handler(){
+                public void handleMessage(Message msg){
+                    if(msg.what==99){
+                        newsAdapter.notifyDataSetChanged();
+
+                    }
+                }
+            };
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
