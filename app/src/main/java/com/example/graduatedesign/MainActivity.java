@@ -8,20 +8,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.graduatedesign.tools.SharePreTools;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private final static String TAG = "MainActivity";
     private TextView tv_in,tv_out,tv_s;
@@ -34,10 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentManager manager;
 
     private ImageButton im1;
-
-    private ArrayAdapter adapter;
-    private List<String> typelist = new ArrayList<String>();
-    Spinner spt;
     MyClick myClick;
 
     @Override
@@ -50,21 +41,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void initViews() {
-        typelist.add("建桥要闻");
-        typelist.add("菁菁校园");
-        typelist.add("院部动态");
         tv_in = findViewById(R.id.tv_one);
         tv_out = findViewById(R.id.tv_two);
         tv_s = findViewById(R.id.tv_three);
         im1 = findViewById(R.id.ac_ib1);
-        spt = findViewById(R.id.sp_t);
-        adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item,typelist);
-        spt.setAdapter(adapter);
-        spt.setOnItemSelectedListener(this);
+
         String type = SharePreTools.getType(MainActivity.this);
         if(type.equals("0"))
         {
-            spt.setVisibility(View.GONE);
             tv_in.setVisibility(View.VISIBLE);
             tv_in.setText("收藏");
             tv_out.setText("赞");
@@ -129,10 +113,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sp_t:
-                setTabSelection(0);
-                break;
             case R.id.tv_one:
+                bt_in_cl();
                 setTabSelection(0);
                 break;
             case R.id.tv_two:
@@ -149,71 +131,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void changecolor(int page){
         if(page==0){
-            spt.setBackgroundColor(Color.parseColor("#AABB66"));
             tv_in.setBackgroundColor(Color.parseColor("#AABB66"));
             tv_out.setBackgroundColor(Color.parseColor("#FFFFDD"));
             tv_s.setBackgroundColor(Color.parseColor("#FFFFDD"));
         }
         if(page==1){
-            spt.setBackgroundColor(Color.parseColor("#FFFFDD"));
             tv_out.setBackgroundColor(Color.parseColor("#AABB66"));
             tv_in.setBackgroundColor(Color.parseColor("#FFFFDD"));
             tv_s.setBackgroundColor(Color.parseColor("#FFFFDD"));
         }
         if(page==2){
-            spt.setBackgroundColor(Color.parseColor("#FFFFDD"));
             tv_s.setBackgroundColor(Color.parseColor("#AABB66"));
             tv_out.setBackgroundColor(Color.parseColor("#FFFFDD"));
             tv_in.setBackgroundColor(Color.parseColor("#FFFFDD"));
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        MainActivity.this.sendBroadcast(new Intent("type_change"));
-        setTabSelection(0);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-
     public interface MyClick{
         void click_cn();
     }
 
-//    public void gettypee(){
-//        typelist.clear();
-//        String url = "http://dwy.dwhhh.cn/api/newstp";
-//        OkHttpClient client = new OkHttpClient.Builder().build();
-//        Request request = new Request.Builder().url(url).get().build();
-//        Call call = client.newCall(request);
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String res = response.body().string();
-//                com.alibaba.fastjson.JSONObject json = JSONObject.parseObject(res);
-//                if(json.getString("result").length()>5){
-//                    Log.d(TAG,json.getString("result"));
-//                    JSONArray newl = json.getJSONArray("result");
-//                    for(int i=0;i<newl.size();i++){
-//                        String newst = newl.get(i).toString();
-//                        com.alibaba.fastjson.JSONObject newd = JSONObject.parseObject(newst);
-//                        String id = newd.getString("newstpid");
-//                        String url = newd.getString("newstpcn");
-//                        Types news = new Types(id,url);
-//                        Log.d(TAG,news.toString());
-//                        typelist.add(news.getTp_cn());
-//                    }
-//                }
-//            }
-//        });
-//    }
+    int flag = 0;
+    public void bt_in_cl(){
+        flag+=1;
+        if(flag==1){
+            tv_in.setText("建桥要闻");
+        }
+        if(flag==2) {
+            tv_in.setText("院部动态");
+        }
+        if(flag==3){
+            tv_in.setText("菁菁校园");
+        }
+        if(flag==4){
+            flag=0;
+            tv_in.setText("校内");
+        }
+        Intent intent = new Intent("type_change");
+        intent.putExtra("type",flag);
+        MainActivity.this.sendBroadcast(intent);
+    }
 }

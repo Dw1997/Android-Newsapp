@@ -37,14 +37,6 @@
         android:layout_height="28dp"
         android:background="#FFFFFF">
 
-        <Spinner
-            android:id="@+id/sp_t"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:background="#AABB66"
-            android:spinnerMode="dropdown" />
-
         <TextView
             android:id="@+id/tv_one"
             android:layout_width="fill_parent"
@@ -52,8 +44,7 @@
             android:layout_weight="1.0"
             android:gravity="center"
             android:text="校内"
-            android:textColor="#000000"
-            android:visibility="gone"/>
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/tv_two"

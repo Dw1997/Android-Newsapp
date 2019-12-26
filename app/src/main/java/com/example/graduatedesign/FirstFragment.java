@@ -41,41 +41,16 @@ public class FirstFragment extends Fragment implements MainActivity.MyClick{
     public List<News> listn = new ArrayList<News>();
     NewsAdapter newsAdapter;
     private Handler handler = null;
-    private Handler handler2 = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View messageLayout = inflater.inflate(R.layout.view_one,container,false);
         lv_nfi = messageLayout.findViewById(R.id.lv_one);
-        listn = getnews(0,0);
+        List<News> listd = new ArrayList<News>();
+        listn = getnews(1,8);
         newsAdapter = new NewsAdapter(getActivity(),R.layout.news_item,listn);
         lv_nfi.setAdapter(newsAdapter);
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep(2000);
-                    listn = getnews(1,0);
-                    handler.sendMessage(handler.obtainMessage(0,listn));
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        try{
-            new Thread(runnable).start();
-            handler = new Handler(){
-                public void handleMessage(Message msg){
-                    if(msg.what==0){
-                        newsAdapter.notifyDataSetChanged();
-                    }
-                }
-            };
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+        initdata();
         lv_nfi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,7 +62,6 @@ public class FirstFragment extends Fragment implements MainActivity.MyClick{
                 startActivity(intent);
             }
         });
-
         return messageLayout;
     }
 
@@ -105,9 +79,38 @@ public class FirstFragment extends Fragment implements MainActivity.MyClick{
         getActivity().unregisterReceiver(userChangReceiver);
     }
 
-    private List<News> getnews(int page,int tp){
+    public void initdata(){
+        List<News> listd = new ArrayList<News>();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                    for(News n:listd){
+                        listn.add(n);
+                    }
+                    handler.sendMessage(handler.obtainMessage(0,listn));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        try{
+            new Thread(runnable).start();
+            handler = new Handler(){
+                public void handleMessage(Message msg){
+                    if (msg.what==0){
+                        newsAdapter.notifyDataSetChanged();
+                    }
+                }
+            };
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private List<News> getnews(int page, int tp){
         List<News> listbb = new ArrayList<News>();
-        listbb.clear();
         String typee = SharePreTools.getType(getActivity());
         String url = "";
         if(typee.equals("0"))
@@ -157,48 +160,43 @@ public class FirstFragment extends Fragment implements MainActivity.MyClick{
     public void click_cn() {
 
     }
-
+    int tpp=0;
     BroadcastReceiver userChangReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals("type_change")) {
-               refrechnews();
-            }
-        }
+            if (intent.getAction().equals("type_change")) {
 
-    };
-
-
-    public void refrechnews(){
-
-        Spinner sp2 = (Spinner) getActivity().findViewById(R.id.sp_t);
-        int pos = sp2.getSelectedItemPosition();
-        Runnable runnable2 = new Runnable() {
-            @Override
-            public void run() {
+                tpp = intent.getIntExtra("type",8)-1;
+                if(tpp==0){
+                    tpp=8;
+                }
+                Log.d("broadcast", "get----");
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            Thread.sleep(2000);
+                            listn = getnews(1,tpp);
+                            handler.sendMessage(handler.obtainMessage(0,listn));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
                 try{
-                    Thread.sleep(2000);
-                    listn = getnews(1,pos);
-                    handler.sendMessage(handler.obtainMessage(99,listn));
-
-                } catch (InterruptedException e) {
+                    new Thread(runnable).start();
+                    handler = new Handler(){
+                        public void handleMessage(Message msg){
+                            if (msg.what==0){
+                                newsAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    };
+                }catch (Exception e){
                     e.printStackTrace();
                 }
             }
-        };
-        try{
-            new Thread(runnable2).start();
-            handler = new Handler(){
-                public void handleMessage(Message msg){
-                    if(msg.what==99){
-                        newsAdapter.notifyDataSetChanged();
-
-                    }
-                }
-            };
-        }catch (Exception e){
-            e.printStackTrace();
         }
-    }
+    };
 
 }
